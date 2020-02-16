@@ -6,17 +6,16 @@
 
 ```yml
 - name: ci status
-  uses: foxundermoon/wechat-work-action@v1
+  uses: foxundermoon/feishu-action@v1
   with:
-    url: ${{ secrets.WECHAT_WORK_WEBHOOK_URL }}
-    type: markdown
-    content: |
-      ## action test
-      > from github action test
-      - repository: ${{ github.repository }}
-      - committer: ${{ github.actor }}
-      - compare: [view](${{ github.event.compare }})
-      - job status: ${{ job.status }}
+    url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+    title: notice
+    text: |
+      from github action test
+      repository: ${{ github.repository }}
+      committer: ${{ github.actor }}
+      compare: ${{ github.event.compare }}
+      job status: ${{ job.status }}
 ```
 
 🔐 Set your secrets here: `https://github.com/USERNAME/REPO/settings/secrets`.
@@ -27,13 +26,8 @@ Contexts and expression syntax for GitHub Actions, here: https://help.github.com
 
 ## Options
 
-| option  | type   | required | default | description                                                                              |
-| ------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| url     | string | Yes      | none    | The full address of webhook: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxxxx |
-| type    | string | No       | text    | message type，support (text,markdown,custom)                                             |
-| content | string | Yes      | none    | Message content, text or markdown or json string                                         |
-| at      | string | No       | none    | At user,Use commas to separate, for example: 13812345678,13898754321 or all              |
-
-if type is custom, content is wecaht-work api json request body,for example
-
-> content: {"msgtype": "text", "text": {"content": "我就是我, 是不一样的烟火"}}
+| option | type   | description                                                               |
+| ------ | ------ | ------------------------------------------------------------------------- |
+| url    | string | webhook url: https://open.feishu.cn/open-apis/bot/hook/7c5a4a4ba83bxxxxxx |
+| title  | string | message title                                                             |
+| text   | string | message body                                                              |

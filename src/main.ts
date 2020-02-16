@@ -1,32 +1,21 @@
 import * as core from '@actions/core'
 import got from 'got'
 
-enum MsgType {
-  text = 'text',
-  markdown = 'markdown',
-  custom = 'custom'
+interface Message {
+  title: string
+  text: string
 }
+
 async function postMessage(): Promise<string> {
-  const type: MsgType = core.getInput('type') as MsgType
-  const content: string = core.getInput('content')
-  const at: string = core.getInput('at')
-
-  if (type === MsgType.custom) {
-    const payload = JSON.parse(content)
-    return post(payload)
-  }
-
-  const payload = {
-    msgtype: type,
-    [type]: {
-      content
-    },
-    mentioned_list: at.toLowerCase().includes('all') ? ['@all'] : at.split(',')
-  }
-  return post(payload)
+  const title: string = core.getInput('title')
+  const text: string = core.getInput('text')
+  return await post({
+    title,
+    text
+  })
 }
 
-async function post(body: object): Promise<string> {
+async function post(body: Message): Promise<string> {
   const url: string = core.getInput('url')
   const rsp = await got.post(url, {
     headers: {

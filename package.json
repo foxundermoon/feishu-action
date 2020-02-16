@@ -15,16 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/foxundermoon/wechat-work-action.git"
+    "url": "git+https://github.com/foxundermoon/feishu-action.git"
   },
   "keywords": [
-    "wechat",
-    "wechat work",
+    "feishu",
+    "feishu bot",
+    "custom bot",
     "messager",
     "message",
-    "actions",
-    "node",
-    "setup"
+    "actions"
   ],
   "author": "foxundermoon",
   "license": "MIT",

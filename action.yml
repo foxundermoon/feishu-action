@@ -1,27 +1,21 @@
-name: 'Wechat Work action'
-description: 'message by Wechat Work, super tiny.  run one time cost 1s .support linux macos and window, base node runner not by docker'
+name: 'feishu bot action'
+description: 'message by Feishu bot, super tiny.  run one time cost 1s .support linux macos and window, base node runner not by docker'
 author: 'foxundermoon'
 inputs:
   url:
+    required: true
     description: 'web hook url'
-    default: 'default value if applicable'
+  title:
     required: true
-  type:
-    default: text
-    required: false
-    description: the msg type
-  content:
+    description: the msg title
+  text:
     required: true
-    description: the msg content
-  at:
-    description: '@ users'
-    default: ''
-    required: false
+    description: the msg body
 
 runs:
   using: 'node12'
   main: 'dist/index.js'
 
 branding:
-  color: 'green'
+  color: 'blue'
   icon: 'message-square'

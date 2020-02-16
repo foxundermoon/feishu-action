@@ -1893,29 +1893,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const got_1 = __importDefault(__webpack_require__(77));
-var MsgType;
-(function (MsgType) {
-    MsgType["text"] = "text";
-    MsgType["markdown"] = "markdown";
-    MsgType["custom"] = "custom";
-})(MsgType || (MsgType = {}));
 function postMessage() {
     return __awaiter(this, void 0, void 0, function* () {
-        const type = core.getInput('type');
-        const content = core.getInput('content');
-        const at = core.getInput('at');
-        if (type === MsgType.custom) {
-            const payload = JSON.parse(content);
-            return post(payload);
-        }
-        const payload = {
-            msgtype: type,
-            [type]: {
-                content
-            },
-            mentioned_list: at.toLowerCase().includes('all') ? ['@all'] : at.split(',')
-        };
-        return post(payload);
+        const title = core.getInput('title');
+        const text = core.getInput('text');
+        return yield post({
+            title,
+            text
+        });
     });
 }
 function post(body) {
