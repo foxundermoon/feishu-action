@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import got from 'got'
+import yaml from 'js-yaml'
 
 interface Message {
 	msg_type: string
@@ -11,7 +12,7 @@ async function postMessage(): Promise<string> {
   const content: string = core.getInput('content')
   return await post({
     msg_type,
-    content
+    content: yaml.load(content)
   })
 }
 
