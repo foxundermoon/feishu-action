@@ -3,8 +3,8 @@ import got from 'got'
 import yaml from 'js-yaml'
 
 interface Message {
-	msg_type: string
-	content: any
+  msg_type: string
+  content: any
 }
 
 async function postMessage(): Promise<string> {
@@ -32,7 +32,7 @@ async function post(body: Message): Promise<string> {
 async function run(): Promise<void> {
   try {
     await postMessage()
-  } catch (error:any) {
+  } catch (error) {
     core.setFailed(error.message)
   }
 }
