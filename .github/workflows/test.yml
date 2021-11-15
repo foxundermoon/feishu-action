@@ -24,7 +24,7 @@ jobs:
           url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
           msg_type: text
           content: |
-            text:
+            text: |
               hahahah
               from github action test
               repository: ${{ github.repository }}
