@@ -1,17 +1,18 @@
 import * as core from '@actions/core'
 import got from 'got'
+import yaml from 'js-yaml'
 
 interface Message {
-  title: string
-  text: string
+  msg_type: string
+  content: any
 }
 
 async function postMessage(): Promise<string> {
-  const title: string = core.getInput('title')
-  const text: string = core.getInput('text')
+  const msg_type: string = core.getInput('msg_type')
+  const content: string = core.getInput('content')
   return await post({
-    title,
-    text
+    msg_type,
+    content: yaml.load(content)
   })
 }
 

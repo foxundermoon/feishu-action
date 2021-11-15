@@ -5,6 +5,7 @@ on: # rebuild any PRs and main branch changes
     branches:
       - master
       - 'releases/*'
+      - 'v*'
 
 jobs:
   build: # make sure build/ci work properly
@@ -21,10 +22,40 @@ jobs:
       - uses: ./
         with:
           url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
-          title: notice
-          text: |
-            from github action test
-            repository: ${{ github.repository }}
-            committer: ${{ github.actor }}
-            compare: ${{ github.event.compare }}
-            job status: ${{ job.status }}
+          msg_type: text
+          content: |
+            text: |
+              hahahah
+              from github action test
+              repository: ${{ github.repository }}
+              committer: ${{ github.actor }}
+              compare: ${{ github.event.compare }}
+              job status: ${{ job.status }}
+      - uses: ./
+        with:
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: post
+          content: |
+            post:
+              zh_cn:
+                title: 项目更新通知
+                content:
+                  - tag: text
+                    text: '项目有更新: '
+                  - tag: a
+                    text: 请查看
+                    href: ${{ github.repository }}
+                  - tag: at
+                    user_id: "ou_18eac8********17ad4f02e8bbbb"
+      - uses: ./
+        with:
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: share_chat
+          content: |
+            share_chat_id: oc_f5b1a7eb27ae2c7b6adc2a74faf339ff
+      - uses: ./
+        with:
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: image
+          content: |
+            image_key: img_ecffc3b9-8f14-400f-a014-05eca1a4310g
