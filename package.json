@@ -1,6 +1,6 @@
 {
   "name": "wechat-work-action",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": false,
   "description": "wechat work message action",
   "main": "lib/main.js",
