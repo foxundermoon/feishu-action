@@ -2,16 +2,16 @@ import * as core from '@actions/core'
 import got from 'got'
 
 interface Message {
-  title: string
-  text: string
+	msg_type: string
+	content: any
 }
 
 async function postMessage(): Promise<string> {
-  const title: string = core.getInput('title')
-  const text: string = core.getInput('text')
+  const msg_type: string = core.getInput('msg_type')
+  const content: string = core.getInput('content')
   return await post({
-    title,
-    text
+    msg_type,
+    content
   })
 }
 
@@ -31,7 +31,7 @@ async function post(body: Message): Promise<string> {
 async function run(): Promise<void> {
   try {
     await postMessage()
-  } catch (error) {
+  } catch (error:any) {
     core.setFailed(error.message)
   }
 }

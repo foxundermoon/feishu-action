@@ -5,12 +5,13 @@ inputs:
   url:
     required: true
     description: 'web hook url'
-  title:
+  msg_type:
+    required: false
+    description: the msg type  https://www.feishu.cn/hc/zh-CN/articles/360024984973
+    default: text
+  content:
     required: true
-    description: the msg title
-  text:
-    required: true
-    description: the msg body
+    description: the msg content https://www.feishu.cn/hc/zh-CN/articles/360024984973
 
 runs:
   using: 'node12'
