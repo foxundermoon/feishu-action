@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "got": "^11.0.0"
+    "got": "^11.8.5"
   },
   "devDependencies": {
     "@types/jest": "24.9.1",
