@@ -77,6 +77,37 @@
       image_key: img_ecffc3b9-8f14-400f-a014-05eca1a4310g
 ```
 
+- card
+
+```yml
+- name: card message
+  uses: foxundermoon/feishu-action@v2
+  with:
+    url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+    msg_type: card
+    content: |
+      header:
+        template: red
+        title:
+          content: "\U0001F514 叮～你有一封圣诞邀请函待查收 \U0001F381"
+          tag: plain_text
+      elements:
+      - alt:
+          content: ''
+          tag: plain_text
+        img_key: img_v2_fddd29cd-2846-4a03-aaed-d22878e503fg
+        tag: img
+      - tag: div
+        text:
+          content: "圣诞老人赶着麋鹿在平安夜悄悄光临办公楼，为大家带来了丰盛的下午茶～\U0001F385\nBUT...圣诞老人走得太急，忘记带礼物了！！\U0001F622\n\n为活跃办公室气氛，增加同事间情谊，我们将举办圣诞礼物交换派对～！\U0001F942"
+          tag: lark_md
+      - tag: div
+        text:
+          content: "**\U0001F384 圣诞派对时间：**12月24日 14:00-17:00\n\n**\U0001F381 礼物交换方式：**请各位小伙伴们在包装好你准备的礼物之后，附上卡片祝福语，在
+            12 月 23 日下午 14:00 前交给前台，我们会统一交到圣诞老人手里～"
+          tag: lark_md
+```
+
 🔐 Set your secrets here: `https://github.com/USERNAME/REPO/settings/secrets`.
 
 Contexts and expression syntax for GitHub Actions, here: https://help.github.com/en/articles/contexts-and-expression-syntax-for-github-actions#github-context
