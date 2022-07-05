@@ -75,7 +75,7 @@ async function run(): Promise<void> {
   try {
     await postMessage()
   } catch (error) {
-    core.setFailed((error as any).message)
+    core.setFailed((error as Error).message)
   }
 }
 
