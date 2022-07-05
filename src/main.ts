@@ -25,8 +25,7 @@ interface InteractiveMessage {
 }
 
 /** Send text/post/image/sharechat message */
-async function postNormalMessage(msg_type: MsgType): Promise<string> {
-  const content: string = core.getInput('content')
+async function postNormalMessage(msg_type: MsgType, content: string): Promise<string> {
   return await post({
     msg_type,
     content: yaml.load(content)
@@ -34,8 +33,8 @@ async function postNormalMessage(msg_type: MsgType): Promise<string> {
 }
 
 /** Send interactive message */
-async function postInteractiveMessage(msg_type: MsgType): Promise<string> {
-  const cardContent: string = core.getInput('content')
+async function postInteractiveMessage(msg_type: MsgType, cardContent: string): Promise<string> {
+  
   return await post({
     msg_type,
     card: yaml.load(cardContent)
@@ -44,17 +43,18 @@ async function postInteractiveMessage(msg_type: MsgType): Promise<string> {
 
 async function postMessage(): Promise<string> {
   const msg_type = core.getInput('msg_type') as MsgType
+  const content: string = core.getInput('content')
 
   switch (msg_type) {
     case MsgType.Text:
     case MsgType.Post:
     case MsgType.Image:
     case MsgType.ShareChat:
-      return await postNormalMessage(msg_type)
+      return await postNormalMessage(msg_type, content)
     case MsgType.Interactive:
-      return await postInteractiveMessage(msg_type)
+      return await postInteractiveMessage(msg_type, content)
     default: // fallback
-      return await postNormalMessage(msg_type)
+      return await postNormalMessage(msg_type, content)
   }
 }
 
