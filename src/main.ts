@@ -64,9 +64,6 @@ async function postMessage(): Promise<string> {
 }
 
 async function post(body: Message | InteractiveMessage): Promise<string> {
-  console.log(JSON.stringify(body))
-  core.debug(JSON.stringify(body))
-
   const url: string = core.getInput('url')
   const rsp = await got.post(url, {
     headers: {

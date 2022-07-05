@@ -2685,7 +2685,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const got_1 = __importDefault(__webpack_require__(77));
-const yaml = __importStar(__webpack_require__(414));
+const js_yaml_1 = __importDefault(__webpack_require__(414));
 /** Supported push message format https://open.feishu.cn/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN#8b0f2a1b */
 var MsgType;
 (function (MsgType) {
@@ -2700,7 +2700,7 @@ function postNormalMessage(msg_type, content) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield post({
             msg_type,
-            content: yaml.load(content)
+            content: js_yaml_1.default.load(content)
         });
     });
 }
@@ -2709,7 +2709,7 @@ function postInteractiveMessage(msg_type, cardContent) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield post({
             msg_type,
-            card: yaml.load(cardContent)
+            card: js_yaml_1.default.load(cardContent)
         });
     });
 }
@@ -2725,15 +2725,14 @@ function postMessage() {
                 return yield postNormalMessage(msg_type, content);
             case MsgType.Interactive:
                 return yield postInteractiveMessage(msg_type, content);
-            default: // fallback
+            default:
+                // fallback
                 return yield postNormalMessage(msg_type, content);
         }
     });
 }
 function post(body) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(JSON.stringify(body));
-        core.debug(JSON.stringify(body));
         const url = core.getInput('url');
         const rsp = yield got_1.default.post(url, {
             headers: {
