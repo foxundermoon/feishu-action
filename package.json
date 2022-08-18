@@ -28,7 +28,7 @@
   "author": "foxundermoon",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "got": "^11.0.0"
   },
   "devDependencies": {
