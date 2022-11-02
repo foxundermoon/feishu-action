@@ -19,7 +19,13 @@ module.exports =
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -2645,6 +2651,25 @@ exports.default = (message) => {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -2654,13 +2679,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -2668,14 +2686,49 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const got_1 = __importDefault(__webpack_require__(77));
 const js_yaml_1 = __importDefault(__webpack_require__(414));
-function postMessage() {
+/** Supported push message format https://open.feishu.cn/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN#8b0f2a1b */
+var MsgType;
+(function (MsgType) {
+    MsgType["Text"] = "text";
+    MsgType["Post"] = "post";
+    MsgType["Image"] = "image";
+    MsgType["ShareChat"] = "share_chat";
+    MsgType["Interactive"] = "interactive";
+})(MsgType || (MsgType = {}));
+/** Send text/post/image/sharechat message */
+function postNormalMessage(msg_type, content) {
     return __awaiter(this, void 0, void 0, function* () {
-        const msg_type = core.getInput('msg_type');
-        const content = core.getInput('content');
         return yield post({
             msg_type,
             content: js_yaml_1.default.load(content)
         });
+    });
+}
+/** Send interactive message */
+function postInteractiveMessage(msg_type, cardContent) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield post({
+            msg_type,
+            card: js_yaml_1.default.load(cardContent)
+        });
+    });
+}
+function postMessage() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const msg_type = core.getInput('msg_type');
+        const content = core.getInput('content');
+        switch (msg_type) {
+            case MsgType.Text:
+            case MsgType.Post:
+            case MsgType.Image:
+            case MsgType.ShareChat:
+                return yield postNormalMessage(msg_type, content);
+            case MsgType.Interactive:
+                return yield postInteractiveMessage(msg_type, content);
+            default:
+                // fallback
+                return yield postNormalMessage(msg_type, content);
+        }
     });
 }
 function post(body) {
