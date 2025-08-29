@@ -4,15 +4,16 @@ import yaml from 'js-yaml'
 
 interface Message {
   msg_type: string
-  content: any
+  content: Record<string, unknown>
 }
 
 async function postMessage(): Promise<string> {
   const msg_type: string = core.getInput('msg_type')
   const content: string = core.getInput('content')
+  const parsedContent = yaml.load(content) as Record<string, unknown>
   return await post({
     msg_type,
-    content: yaml.load(content)
+    content: parsedContent
   })
 }
 
@@ -33,7 +34,7 @@ async function run(): Promise<void> {
   try {
     await postMessage()
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error instanceof Error ? error.message : String(error))
   }
 }
 
